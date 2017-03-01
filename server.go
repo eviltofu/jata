@@ -6,13 +6,13 @@ import (
 	"net"
 )
 
-// TCPServer represents a TCP Server
-type TCPServer struct {
+// TCPClient represents a TCP Server
+type TCPClient struct {
 	Listener *net.Listener
 }
 
 // StartListeningOnPort starts the server
-func (s *TCPServer) StartListeningOnPort(port int) (err error) {
+func (s *TCPClient) StartListeningOnPort(port int) (err error) {
 	defer s.StopListening()
 	portString := fmt.Sprintf(":%d", port)
 	ln, err1 := net.Listen("tcp", portString)
@@ -34,12 +34,12 @@ func (s *TCPServer) StartListeningOnPort(port int) (err error) {
 }
 
 // StopListening closes the Listerner
-func (s *TCPServer) StopListening() (err error) {
+func (s *TCPClient) StopListening() (err error) {
 	return (*s.Listener).Close()
 }
 
 // HandleConnection handles all connection logic
-func HandleConnection(s *TCPServer, c net.Conn) {
+func HandleConnection(s *TCPClient, c net.Conn) {
 	defer c.Close()
 	reader := bufio.NewReaderSize(c, 8192)
 	for {
